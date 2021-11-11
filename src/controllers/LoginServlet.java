@@ -15,16 +15,16 @@ import models.User;
 import utils.DBUtil;
 
 /**
- * Servlet implementation class IndexServlet
+ * Servlet implementation class LoginServlet
  */
-@WebServlet("/index")
-public class IndexServlet extends HttpServlet {
+@WebServlet("/login")
+public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public IndexServlet() {
+    public LoginServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,7 +41,7 @@ public class IndexServlet extends HttpServlet {
 
         request.setAttribute("user", user);
 
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/user/index.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/user/login.jsp");
         rd.forward(request, response);
     }
 
