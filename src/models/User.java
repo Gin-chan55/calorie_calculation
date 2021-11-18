@@ -12,9 +12,17 @@ import javax.persistence.Table;
 @Entity
 @NamedQueries({
     @NamedQuery(
-        name = "getAllUser",
-        query = "SELECT m FROM User AS m ORDER BY m.id DESC"
-    )
+            name = "getAllUser",
+            query = "SELECT m FROM User AS m ORDER BY m.id DESC"
+            ),
+    @NamedQuery(
+            name = "getUserCount",
+            query = "SELECT COUNT(m) FROM User AS m"
+            ),
+    @NamedQuery(
+            name = "getUserCountByAddress", // ☆ここを増やす
+            query = "SELECT COUNT(m) FROM User AS m WHERE m.address = :address"
+            )
 })
 @Table(name = "user")
 
@@ -44,7 +52,7 @@ public class User {
         this.id = id;
     }
 
-    public String gerAddress() {
+    public String getAddress() {
         return address;
     }
 
