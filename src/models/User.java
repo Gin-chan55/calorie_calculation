@@ -23,6 +23,11 @@ import javax.persistence.Table;
             name = "getUserCountByAddress", // ☆ここを増やす
             query = "SELECT COUNT(m) FROM User AS m WHERE m.address = :address"
             )
+    ,
+    @NamedQuery(
+            name = "checkLoginAddressAndPassword", // ☆ここを増やす
+            query = "SELECT m FROM User AS m WHERE m.address = :address AND m.password = :pass"
+            )
 })
 @Table(name = "user")
 

@@ -28,9 +28,19 @@ public class UserValidator {
             errors.add("メールアドレスが重複しています。");
         }
 
-        String password_error = validateContent(m.getPassword());
+        String password_error = validatePassword(m.getPassword());
         if(!password_error.equals("")) {
             errors.add(password_error);
+        }
+
+        String height_error = validateHeight(m.getHeight());
+        if(!height_error.equals("")) {
+            errors.add(height_error);
+        }
+
+        String weight_error = validateWeight(m.getWeight());
+        if(!weight_error.equals("")) {
+            errors.add(weight_error);
         }
 
         return errors;
@@ -45,12 +55,29 @@ public class UserValidator {
         return "";
     }
 
-    // メッセージの必須入力チェック
-    private static String validateContent(String content) {
-        if(content == null || content.equals("")) {
-            return "メッセージを入力してください。";
+    // パスワードの必須入力チェック
+    private static String validatePassword(String password) {
+        if(password == null || password.equals("")) {
+            return "パスワードを入力してください。";
         }
 
         return "";
     }
+    // 身長の必須入力チェック
+    private static String validateHeight(String height) {
+        if(height == null || height.equals("")) {
+            return "身長を入力してください。";
+        }
+
+        return "";
+    }
+    // 体重の必須入力チェック
+    private static String validateWeight(String weight) {
+        if(weight == null || weight.equals("")) {
+            return "体重を入力してください。";
+        }
+
+        return "";
+    }
+
 }

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import models.User;
 import models.validators.UserValidator;
 import utils.DBUtil;
+import utils.EncryptUtil;
 
 /**
  * Servlet implementation class CreateServlet
@@ -33,9 +34,10 @@ public class CreateServlet extends HttpServlet {
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String _token = request.getParameter("_token");
-        if(_token != null && _token.equals(request.getSession().getId())) {
+        if (_token != null && _token.equals(request.getSession().getId())) {
             EntityManager em = DBUtil.createEntityManager();
             em.getTransaction().begin();
 
@@ -45,27 +47,39 @@ public class CreateServlet extends HttpServlet {
             m.setAddress(address);
 
             String password = request.getParameter("password");
-            m.setPassword(password);
+            m.setPassword(
+                    EncryptUtil.getPasswordEncrypt(
+                            password,
+                                (String)this.getServletContext().getAttribute("pepper")
+                            )
+                    );
+
+            String height = request.getParameter("height");
+            m.setHeight(height);
+
+            String weight = request.getParameter("weight");
+            m.setWeight(weight);
 
             //バリデーションを実行してエラーがあったら新規登録のフォームに戻る
             List<String> errors = UserValidator.validate(m, em);
-            if(errors.size() > 0) {
-                 em.close();
 
-            // フォームに初期値を設定、さらにエラーメッセージを送る
-            request.setAttribute("_token", request.getSession().getId());
-            request.setAttribute("user", m);
-            request.setAttribute("errors", errors);
+            if (errors.size() > 0) {
+                em.close();
 
-            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/user/new.jsp");
-            rd.forward(request, response);
+                // フォームに初期値を設定、さらにエラーメッセージを送る
+                request.setAttribute("_token", request.getSession().getId());
+                request.setAttribute("user", m);
+                request.setAttribute("errors", errors);
+
+                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/user/new.jsp");
+                rd.forward(request, response);
             } else {
 
-            em.persist(m);
-            em.getTransaction().commit();
-            em.close();
-
-            response.sendRedirect(request.getContextPath() + "/login");
+                em.persist(m);
+                em.getTransaction().commit();
+                em.close();
+                request.getSession().setAttribute("flush", "登録が完了しました。");
+                response.sendRedirect(request.getContextPath() + "/login");
             }
         }
     }
