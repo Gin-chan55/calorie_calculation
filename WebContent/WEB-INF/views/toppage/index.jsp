@@ -8,6 +8,16 @@
                 <c:out value="${flush }"></c:out>
             </div>
         </c:if>
+
+        <h1>★総摂取カロリー</h1>
+        <input type="text">
+
+        <form method="post" action="<c:url value='/%総カロリー編集する処理のURL%' />">
+            <button type="submit">編集</button>
+        </form>
+
+        <h1>★総消費カロリー</h1>
+
         <h2>TOPページ</h2>
     </c:param>
 </c:import>
