@@ -26,6 +26,7 @@
             <input type="hidden" name="_token" value="${_token }" />
             <button type="submit">ログイン</button>
         </form>
+        <br />
         <form method="GET" action="${pageContext.request.contextPath}/new">
             <button type="submit">新規登録</button>
         </form>

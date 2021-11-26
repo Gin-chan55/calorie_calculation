@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <c:import url="../layout/app.jsp">
     <c:param name="content">
         <c:if test="${flush != null }">
@@ -9,14 +11,25 @@
             </div>
         </c:if>
 
-        <h1>★総摂取カロリー</h1>
-        <input type="text">
+        <fmt:parseDate value="${loginDay}" pattern="yyyy-MM-dd" var="loginDay" type="date" />
+        <label for="date"></label>
+        <input type="date" name="loginDay" value="<fmt:formatDate value='${loginDay}' pattern='yyyy-MM-dd' />" />
 
-        <form method="post" action="<c:url value='/%総カロリー編集する処理のURL%' />">
-            <button type="submit">編集</button>
+        <form method="post" action="<c:url value='/calorie_calculation/src/controllers/toppage/TopPageIndexServlet.java' />">
+        <h3>★総摂取カロリー</h3>
+        <label for="text">カロリー</label><br />
+        <input type="text" name="text"/><c:out value="${calorieintake}" /> kcal
+        <button type="submit">編集</button>
         </form>
 
-        <h1>★総消費カロリー</h1>
+        <form method="post" action="<c:url value='/%総カロリー編集する処理のURL%' />">
+        <h3>★総消費カロリー</h3>
+        <label for="text">歩数</label>
+        <br />
+        <input type="text" name="text" /> 歩
+        <br />
+        <button type="submit">編集</button>
+        </form>
 
         <h2>TOPページ</h2>
     </c:param>
