@@ -4,6 +4,8 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<class>models.User</class>
 		<class>models.CalorieIntake</class>
+		<class>models.CalorieConsumption</class>
+		<class>models.Addition</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/calorie_calculation?useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf8&amp;allowPublicKeyRetrieval=true"/>

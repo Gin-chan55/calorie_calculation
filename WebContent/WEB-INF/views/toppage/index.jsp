@@ -18,17 +18,22 @@
         <form method="post" action="<c:url value='/calorie_calculation/src/controllers/toppage/TopPageIndexServlet.java' />">
         <h3>★総摂取カロリー</h3>
         <label for="text">カロリー</label><br />
-        <input type="text" name="text"/><c:out value="${calorieintake}" /> kcal
+        <c:out value="${calorieintake}" /> kcal
         <button type="submit">編集</button>
         </form>
 
         <form method="post" action="<c:url value='/%総カロリー編集する処理のURL%' />">
+        </form>
+
+
         <h3>★総消費カロリー</h3>
-        <label for="text">歩数</label>
-        <br />
-        <input type="text" name="text" /> 歩
-        <br />
+
+        <form method="POST" action="/calorie_calculation/src/controllers/toppage/TopPageIndexServlet.java">
+            <label for="StepCount">歩数</label><br />
+            <input type="text" name="StepCount" />歩 &nbsp; = <input type="text" name="CaloriesBurned" <c:out value="${CaloriesBurned}" />/> kcal
+            <br /><br />
         <button type="submit">編集</button>
+        <br /><br />
         </form>
 
         <h2>TOPページ</h2>

@@ -12,26 +12,26 @@ import javax.persistence.Table;
 @Entity
 @NamedQueries({
     @NamedQuery(
-            name = "getAllCalorieIntake",
-            query = "SELECT m FROM CalorieIntake AS m ORDER BY m.id DESC"
+            name = "getAllCalorieConsumption",
+            query = "SELECT m FROM CalorieConsumption AS m ORDER BY m.id DESC"
             ),
     @NamedQuery(
-            name = "getCalorieIntakeCount",
-            query = "SELECT COUNT(m) FROM CalorieIntake AS m"
+            name = "getCalorieConsumptionCount",
+            query = "SELECT COUNT(m) FROM CalorieConsumption AS m"
             ),
     @NamedQuery(
-            name = "getCalorieIntakeCountByAddress", // ☆ここを増やす
-            query = "SELECT COUNT(m) FROM CalorieIntake AS m WHERE m.userid = :userid"
+            name = "getCalorieConsumptionCountByAddress", // ☆ここを増やす
+            query = "SELECT COUNT(m) FROM CalorieConsumption AS m WHERE m.userid = :userid"
             ),
     @NamedQuery(
-            name = "getUseridAndDayByCalorieIntake", //
-            query = "SELECT m FROM CalorieIntake AS m WHERE m.userid = :userid AND m.day = :day"
+            name = "getUseridAndDayByCalorieConsumption", //
+            query = "SELECT m FROM CalorieConsumption AS m WHERE m.userid = :userid AND m.day = :day"
             )
 
 })
-@Table(name = "CalorieIntake")
+@Table(name = "CalorieConsumption")
 
-public class CalorieIntake {
+public class CalorieConsumption {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,8 +43,8 @@ public class CalorieIntake {
     @Column(name = "day", length = 255, nullable = false)
     private String day;
 
-    @Column(name = "totalcalorieintake", nullable = false)
-    private Integer totalcalorieintake;
+    @Column(name = "caloriesburned", nullable = false)
+    private Integer caloriesburned;
 
     public Integer getId() {
         return id;
@@ -70,12 +70,12 @@ public class CalorieIntake {
         this.day = day;
     }
 
-    public Integer getTotalcalorieintake() {
-        return totalcalorieintake;
+    public Integer getCaloriesburned() {
+        return caloriesburned;
     }
 
-    public void setTotalcalorieintake(Integer totalcalorieintake) {
-        this.totalcalorieintake = totalcalorieintake;
+    public void setCaloriesburned(Integer caloriesburned) {
+        this.caloriesburned = caloriesburned;
     }
 
 }
