@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import models.CalorieConsumption;
 import models.CalorieIntake;
 import models.User;
 import utils.DBUtil;
@@ -47,9 +46,6 @@ public class TopPageIndexServlet extends HttpServlet {
         int userId = u.getId();
         String day = request.getParameter("day");
 
-        int weight = Integer.parseInt(u.getWeight());
-        int userWeight = weight;
-
         /**
          *
          */
@@ -68,39 +64,6 @@ public class TopPageIndexServlet extends HttpServlet {
 
         }
         request.setAttribute("calorieintake", totalCalorie);
-
-
-
-        int calorieBurned = 0;
-        try {
-            CalorieConsumption calorieconsumption = (CalorieConsumption) em.createNamedQuery("getUseridAndDayByCalorieConsumption", CalorieConsumption.class)
-                    .setParameter("userid", userId)
-                    .setParameter("day", day)
-                    .getSingleResult();
-            calorieBurned = calorieconsumption.getCaloriesburned();
-        }catch(NoResultException e) {
-
-        }
-        request.setAttribute("calorieconsumption", calorieBurned);
-
-        // リクエストパラメータを取得する
-        String StepCount = request.getParameter("StepCount");
-        //Stringからintへの変換
-        int Stepcount = Integer.parseInt(StepCount);
-
-        //歩数を元に消費カロリー計算
-        int Stride = 70;
-        int METs = 4;
-        int num1 = 100000;
-        int stepcount =  Stepcount;
-        double num2 = 1.05;
-        double AverageSpeed = 4.5;
-
-        double km = stepcount * Stride / num1;
-        double Time = km / AverageSpeed;
-        double CaloriesBurned = userWeight * METs * Time * num2;
-        request.setAttribute("CaloriesBurned", CaloriesBurned);
-
 
         // 現在日時情報で初期化されたインスタンスの取得
         LocalDate nowDate = LocalDate.now();

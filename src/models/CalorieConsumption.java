@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(
             name = "getAllCalorieConsumption",
-            query = "SELECT m FROM CalorieConsumption AS m ORDER BY m.id DESC"
+            query = "SELECT m FROM CalorieIntake AS m ORDER BY m.id DESC"
             ),
     @NamedQuery(
             name = "getCalorieConsumptionCount",
@@ -24,8 +24,8 @@ import javax.persistence.Table;
             query = "SELECT COUNT(m) FROM CalorieConsumption AS m WHERE m.userid = :userid"
             ),
     @NamedQuery(
-            name = "getUseridAndDayByCalorieConsumption", //
-            query = "SELECT m FROM CalorieConsumption AS m WHERE m.userid = :userid AND m.day = :day"
+            name = "getUseridAndDayAndStepcountByCalorieConsumption", //
+            query = "SELECT m FROM CalorieConsumption AS m WHERE m.userid = :userid AND m.day = :day AND m.stepcount = :stepcount"
             )
 
 })
@@ -45,6 +45,9 @@ public class CalorieConsumption {
 
     @Column(name = "caloriesburned", nullable = false)
     private Integer caloriesburned;
+
+    @Column(name = "stepcount", nullable = false)
+    private Integer stepcount;
 
     public Integer getId() {
         return id;
@@ -76,6 +79,14 @@ public class CalorieConsumption {
 
     public void setCaloriesburned(Integer caloriesburned) {
         this.caloriesburned = caloriesburned;
+    }
+
+    public Integer getStepcount() {
+        return stepcount;
+    }
+
+    public void setStepcount(Integer stepcount) {
+        this.stepcount = stepcount;
     }
 
 }

@@ -40,11 +40,14 @@ public class Addition {
     @Column(name = "masterid", length = 255, nullable = false)
     private Integer masterid;
 
-    @Column(name = "day", length = 255, nullable = false)
-    private String day;
+    @Column(name = "itemname", length = 255, nullable = false)
+    private String itemname;
 
-    @Column(name = "caloriesburned", nullable = false)
-    private Integer caloriesburned;
+    @Column(name = "caloriesper", nullable = false)
+    private Integer caloriesper;
+
+    @Column(name = "searchkeyword", nullable = false)
+    private String searchkeyword;
 
     public Integer getId() {
         return id;
@@ -63,19 +66,27 @@ public class Addition {
     }
 
     public String getDay() {
-        return day;
+        return itemname;
     }
 
-    public void setDay(String day) {
-        this.day = day;
+    public void setItemname(String itemname) {
+        this.itemname = itemname;
     }
 
-    public Integer getCaloriesburned() {
-        return caloriesburned;
+    public Integer getCaloriesper() {
+        return caloriesper;
     }
 
-    public void setCaloriesburned(Integer caloriesburned) {
-        this.caloriesburned = caloriesburned;
+    public void setCaloriesper(Integer caloriesper) {
+        this.caloriesper = caloriesper;
+    }
+
+    public String getSearchkeyword() {
+        return searchkeyword;
+    }
+
+    public void setSearchkeyword(String searchkeyword) {
+        this.searchkeyword = searchkeyword;
     }
 
 }
