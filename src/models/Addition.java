@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -12,20 +14,8 @@ import javax.persistence.Table;
 @Entity
 @NamedQueries({
     @NamedQuery(
-            name = "getAllAddition",
-            query = "SELECT m FROM CalorieConsumption AS m ORDER BY m.id DESC"
-            ),
-    @NamedQuery(
-            name = "getAdditionCount",
-            query = "SELECT COUNT(m) FROM CalorieConsumption AS m"
-            ),
-    @NamedQuery(
-            name = "getAdditionCountByAddress", // ☆ここを増やす
-            query = "SELECT COUNT(m) FROM CalorieConsumption AS m WHERE m.userid = :userid"
-            ),
-    @NamedQuery(
-            name = "getUseridAndDayByAddition", //
-            query = "SELECT m FROM CalorieConsumption AS m WHERE m.userid = :userid AND m.day = :day"
+            name = "getAdditionByKeyword",
+            query = "SELECT a FROM Addition AS a WHERE a.searchkeyword LIKE :searchkeyword"
             )
 
 })
@@ -37,14 +27,18 @@ public class Addition {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "masterid", length = 255, nullable = false)
-    private Integer masterid;
+    @ManyToOne
+    @JoinColumn(name = "category", nullable = false)
+    private AdditionCategory category;
 
     @Column(name = "itemname", length = 255, nullable = false)
     private String itemname;
 
     @Column(name = "caloriesper", nullable = false)
     private Integer caloriesper;
+
+    @Column(name = "jpncnw", nullable = false)
+    private String jpncnw;
 
     @Column(name = "searchkeyword", nullable = false)
     private String searchkeyword;
@@ -57,15 +51,15 @@ public class Addition {
         this.id = id;
     }
 
-    public Integer getMasterid() {
-        return masterid;
+    public AdditionCategory getCategory() {
+        return category;
     }
 
-    public void setMasterid(Integer masterid) {
-        this.masterid = masterid;
+    public void setCategory(AdditionCategory category) {
+        this.category = category;
     }
 
-    public String getDay() {
+    public String getItemname() {
         return itemname;
     }
 
@@ -79,6 +73,14 @@ public class Addition {
 
     public void setCaloriesper(Integer caloriesper) {
         this.caloriesper = caloriesper;
+    }
+
+    public String getJpncnw() {
+        return jpncnw;
+    }
+
+    public void setJpncnw(String jpncnw) {
+        this.jpncnw = jpncnw;
     }
 
     public String getSearchkeyword() {

@@ -16,7 +16,7 @@
         <input type="date" name="loginDay" value="<fmt:formatDate value='${loginDay}' pattern='yyyy-MM-dd' />" />
 
         <h3>★総摂取カロリー</h3>
-        <form method="post" action="<c:url value='/calorie_calculation/src/controllers/toppage/TopPageIndexServlet.java' />">
+        <form method="GET" action="<c:url value='/meal/index' />">
             <label for="text">カロリー</label><br />
             <c:out value="${calorieintake}" /> kcal
             <input type="hidden" id="calorieintakeDay" name="day" value="">
@@ -31,7 +31,6 @@
             <input type="hidden" id="caloriesBurnedDay" name="day" value="">
             <br /><br />
         <button onclick="editCaloriesBurned()">編集</button>
-        <br /><br />
         </form>
 
         <script>

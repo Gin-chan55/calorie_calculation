@@ -48,39 +48,33 @@ public class CalculationServlet extends HttpServlet {
         String StepCount = request.getParameter("StepCount");
         //Stringからintへの変換
         int Stepcount = Integer.parseInt(StepCount);
-
-
-
-
-        // セッションスコープに保存された消費カロリーの情報を取得
-        CalorieConsumption c = (CalorieConsumption) request.getSession().getAttribute("CalorieBurned");
-        // 消費カロリーの歩数を取得
-        int stepCount = c.getStepcount();
+        // リクエストパラメータを取得する。（消費カロリー）
+        String caloriesBurned= request.getParameter("CaloriesBurned");
+        //Stringからintへの変換
+        int Caloriesburned = Integer.parseInt(caloriesBurned);
 
         EntityManager em = DBUtil.createEntityManager();
         em.getTransaction().begin();
 
-        int calorieBurned = 0;
         try {
             CalorieConsumption calorieconsumption = (CalorieConsumption) em.createNamedQuery("getUseridAndDayAndStepcountByCalorieConsumption", CalorieConsumption.class)
                     .setParameter("userid", userId)
                     .setParameter("day", day)
-                    .setParameter("stepCount", stepCount)
+                    .setParameter("stepCount", Stepcount)
                     .getSingleResult();
-            calorieBurned = calorieconsumption.getCaloriesburned();
+            Caloriesburned = calorieconsumption.getCaloriesburned();
         }catch(NoResultException e) {
         }
-        request.setAttribute("calorieconsumption", calorieBurned);
+        request.setAttribute("calorieconsumption", Caloriesburned);
 
         //歩数を元に消費カロリー計算
         int Stride = 70;
         int METs = 4;
         int num1 = 100000;
-        int stepcount =  Stepcount;
         double num2 = 1.05;
         double AverageSpeed = 4.5;
 
-        double km = stepcount * Stride / num1;
+        double km = Stepcount * Stride / num1;
         double Time = km / AverageSpeed;
         double CaloriesBurned = userWeight * METs * Time * num2;
 
