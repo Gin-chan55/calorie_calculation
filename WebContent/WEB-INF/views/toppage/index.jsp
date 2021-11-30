@@ -19,23 +19,33 @@
         <form method="post" action="<c:url value='/calorie_calculation/src/controllers/toppage/TopPageIndexServlet.java' />">
             <label for="text">カロリー</label><br />
             <c:out value="${calorieintake}" /> kcal
-            <button type="submit">編集</button>
+            <input type="hidden" id="calorieintakeDay" name="day" value="">
+            <button onclick="editCalorieintake()" >編集</button>
         </form>
-
-        <form method="post" action="<c:url value='/%総カロリー編集する処理のURL%' />">
-        </form>
-
 
         <h3>★総消費カロリー</h3>
-        <form method="POST" action="<c:url value='/calorie_calculation/src/controllers/CalculationServlet.java'/>">
+        <form method="POST" action="<c:url value='/CalculationServlet'/>">
             <label for="text">歩数</label>
             <br />
             <input type="text" name="StepCount" />歩 &nbsp; = <input type="text" name="CaloriesBurned" <c:out value="${CaloriesBurned}" />/> kcal
-
+            <input type="hidden" id="caloriesBurnedDay" name="day" value="">
             <br /><br />
-        <button type="submit">編集</button>
+        <button onclick="editCaloriesBurned()">編集</button>
         <br /><br />
         </form>
+
+        <script>
+            function editCalorieintake() {
+                var day = document.getElementsByName("loginDay")[0].value;
+                document.getElementById("calorieintakeDay").value = day;
+                document.forms[0].submit();
+            }
+            function editCaloriesBurned() {
+                var day = document.getElementsByName("loginDay")[0].value;
+                document.getElementById("caloriesBurnedDay").value = day;
+                document.forms[0].submit();
+            }
+        </script>
 
 
 
