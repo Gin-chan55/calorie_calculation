@@ -24,6 +24,10 @@ import javax.persistence.Table;
             query = "SELECT COUNT(m) FROM CalorieIntake AS m WHERE m.userid = :userid"
             ),
     @NamedQuery(
+            name = "getUseridAndDayByCalorieIntake", //
+            query = "SELECT m FROM CalorieIntake AS m WHERE m.userid = :userid AND m.day = :day"
+            ),
+    @NamedQuery(
             name = "getTotalCalorieIntakeByCalorieIntake", //
             query = "SELECT m FROM CalorieIntake AS m WHERE m.totalcalorieintake = :totalcalorieintake"
             )

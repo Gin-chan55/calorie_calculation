@@ -2,6 +2,7 @@ package controllers.toppage;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -46,10 +47,14 @@ public class TopPageIndexServlet extends HttpServlet {
         int userId = u.getId();
         String day = request.getParameter("day");
 
-        /**
-         *
-         */
-        day = "loginDay";
+
+        // 現在日時情報で初期化されたインスタンスの取得
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate nowDate = LocalDate.now();
+        String LoginDate = nowDate.format(formatter);
+        request.setAttribute("loginDay", nowDate);
+
+        day = LoginDate; //ログインした日付
         EntityManager em = DBUtil.createEntityManager();
         em.getTransaction().begin();
 
@@ -64,10 +69,6 @@ public class TopPageIndexServlet extends HttpServlet {
 
         }
         request.setAttribute("calorieintake", totalCalorie);
-
-        // 現在日時情報で初期化されたインスタンスの取得
-        LocalDate nowDate = LocalDate.now();
-        request.setAttribute("loginDay", nowDate);
 
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/toppage/index.jsp");

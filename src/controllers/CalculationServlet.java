@@ -44,6 +44,14 @@ public class CalculationServlet extends HttpServlet {
         int weight = Integer.parseInt(u.getWeight());
         int userWeight = weight;
 
+        // リクエストパラメータを取得する。（歩数）
+        String StepCount = request.getParameter("StepCount");
+        //Stringからintへの変換
+        int Stepcount = Integer.parseInt(StepCount);
+
+
+
+
         // セッションスコープに保存された消費カロリーの情報を取得
         CalorieConsumption c = (CalorieConsumption) request.getSession().getAttribute("CalorieBurned");
         // 消費カロリーの歩数を取得
@@ -63,11 +71,6 @@ public class CalculationServlet extends HttpServlet {
         }catch(NoResultException e) {
         }
         request.setAttribute("calorieconsumption", calorieBurned);
-
-        // リクエストパラメータを取得する
-        String StepCount = request.getParameter("StepCount");
-        //Stringからintへの変換
-        int Stepcount = Integer.parseInt(StepCount);
 
         //歩数を元に消費カロリー計算
         int Stride = 70;
