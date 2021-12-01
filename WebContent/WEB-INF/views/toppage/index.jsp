@@ -17,7 +17,7 @@
 
         <h3>★総摂取カロリー</h3>
         <form method="GET" action="<c:url value='/meal/index' />">
-            <label for="text">カロリー</label><br />
+            <label for="text">摂取カロリー</label><br />
             <c:out value="${calorieintake}" /> kcal
             <input type="hidden" id="calorieintakeDay" name="day" value="">
             <button onclick="editCalorieintake()" >編集</button>
@@ -25,9 +25,9 @@
 
         <h3>★総消費カロリー</h3>
         <form method="POST" action="<c:url value='/CalculationServlet'/>">
-            <label for="text">歩数</label>
+            <label for="text">歩数</label>&nbsp;&nbsp;&nbsp;<label for="text">消費カロリー</label>
             <br />
-            <input type="text" name="StepCount" />歩 &nbsp; = <input type="text" name="CaloriesBurned" <c:out value="${CaloriesBurned}" />/> kcal
+            <input type="text" name="StepCount" />歩 &nbsp; =  <c:out value="${CaloriesBurned}" /> kcal
             <input type="hidden" id="caloriesBurnedDay" name="day" value="">
             <br /><br />
         <button onclick="editCaloriesBurned()">編集</button>

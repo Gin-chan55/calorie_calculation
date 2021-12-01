@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,8 +34,6 @@ public class CalculationServlet extends HttpServlet {
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        doGet(request, response);
 
         // セッションスコープに保存されたログインユーザ情報を取得
         User u = (User) request.getSession().getAttribute("login_user");
@@ -48,31 +47,30 @@ public class CalculationServlet extends HttpServlet {
         String StepCount = request.getParameter("StepCount");
         //Stringからintへの変換
         int Stepcount = Integer.parseInt(StepCount);
-        // リクエストパラメータを取得する。（消費カロリー）
-        String caloriesBurned= request.getParameter("CaloriesBurned");
-        //Stringからintへの変換
-        int Caloriesburned = Integer.parseInt(caloriesBurned);
+        //リクエストパラメータを取得する。（消費カロリー）
+        String caloriesBurned = request.getParameter("caloriesburned");
+
+
 
         EntityManager em = DBUtil.createEntityManager();
         em.getTransaction().begin();
 
         try {
-            CalorieConsumption calorieconsumption = (CalorieConsumption) em.createNamedQuery("getUseridAndDayAndStepcountByCalorieConsumption", CalorieConsumption.class)
-                    .setParameter("userid", userId)
-                    .setParameter("day", day)
-                    .setParameter("stepCount", Stepcount)
+            CalorieConsumption stepcount = (CalorieConsumption) em.createNamedQuery("getStepcountByCalorieConsumption", CalorieConsumption.class)
+                    .setParameter("stepcount", Stepcount)
                     .getSingleResult();
-            Caloriesburned = calorieconsumption.getCaloriesburned();
+            Stepcount = stepcount.getStepcount();
         }catch(NoResultException e) {
         }
-        request.setAttribute("calorieconsumption", Caloriesburned);
+        request.setAttribute("StepCount", Stepcount);
+
 
         //歩数を元に消費カロリー計算
-        int Stride = 70;
+        int Stride = 70; //歩幅70㎝
         int METs = 4;
         int num1 = 100000;
         double num2 = 1.05;
-        double AverageSpeed = 4.5;
+        double AverageSpeed = 4.5; //㎞/時
 
         double km = Stepcount * Stride / num1;
         double Time = km / AverageSpeed;
@@ -80,6 +78,8 @@ public class CalculationServlet extends HttpServlet {
 
         request.setAttribute("CaloriesBurned", CaloriesBurned);
 
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/toppage/index.jsp");
+        rd.forward(request, response);
 
 
     }
