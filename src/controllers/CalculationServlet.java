@@ -1,6 +1,10 @@
 package controllers;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -43,13 +47,23 @@ public class CalculationServlet extends HttpServlet {
         int weight = Integer.parseInt(u.getWeight());
         int userWeight = weight;
 
-        // リクエストパラメータを取得する。（歩数）
+     // 現在日時情報で初期化されたインスタンスの取得
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate nowDate = LocalDate.now();
+        String LoginDate = nowDate.format(formatter);
+        request.setAttribute("loginDay", LoginDate);
+
+        // リクエストパラメータを取得する。
         String StepCount = request.getParameter("StepCount");
+        String calorieintake = request.getParameter("totalcalorieintake");
+
+
         //Stringからintへの変換
         int Stepcount = Integer.parseInt(StepCount);
-        //リクエストパラメータを取得する。（消費カロリー）
-        String caloriesBurned = request.getParameter("caloriesburned");
 
+        // JSPに値を送る
+        request.setAttribute("calorieintake", calorieintake);
+        request.setAttribute("StepCount", Stepcount);
 
 
         EntityManager em = DBUtil.createEntityManager();
@@ -65,6 +79,7 @@ public class CalculationServlet extends HttpServlet {
         request.setAttribute("StepCount", Stepcount);
 
 
+        double CaloriesBurned = 0;
         //歩数を元に消費カロリー計算
         int Stride = 70; //歩幅70㎝
         int METs = 4;
@@ -74,12 +89,20 @@ public class CalculationServlet extends HttpServlet {
 
         double km = Stepcount * Stride / num1;
         double Time = km / AverageSpeed;
-        double CaloriesBurned = userWeight * METs * Time * num2;
+        CaloriesBurned = userWeight * METs * Time * num2;
 
-        request.setAttribute("CaloriesBurned", CaloriesBurned);
+        //小数点第二位以下を切り捨て
+        BigDecimal cd = new BigDecimal(CaloriesBurned);
+        BigDecimal caloriesburned = cd.setScale(1, RoundingMode.HALF_UP);
+
+        request.setAttribute("CaloriesBurned", caloriesburned);
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/toppage/index.jsp");
         rd.forward(request, response);
+
+
+
+
 
 
     }

@@ -17,19 +17,36 @@
 
         <h3>★総摂取カロリー</h3>
         <form method="GET" action="<c:url value='/meal/index' />">
-            <label for="text">摂取カロリー</label><br />
-            <c:out value="${calorieintake}" /> kcal
-            <input type="hidden" id="calorieintakeDay" name="day" value="">
+            <table id="calorieintake_list">
+                <tr>
+                    <th><label for="date">摂取カロリー</label></th>
+                </tr>
+                <tr align="center">
+                    <td><c:out value="${calorieintake}" /> kcal</td>
+                </tr>
+             </table>
+            <input type="hidden" id="calorieintakeDay" name="day" value="<c:out value='${calorieintake}' />">
+            <br />
             <button onclick="editCalorieintake()" >編集</button>
         </form>
 
         <h3>★総消費カロリー</h3>
         <form method="POST" action="<c:url value='/CalculationServlet'/>">
-            <label for="text">歩数</label>&nbsp;&nbsp;&nbsp;<label for="text">消費カロリー</label>
-            <br />
-            <input type="text" name="StepCount" />歩 &nbsp; =  <c:out value="${CaloriesBurned}" /> kcal
+            <table id="CaloriesBurned_list">
+                <tr>
+                    <th><label for="text">歩数</label></th>
+                    <th>＝</th>
+                    <th><label for="text">消費カロリー</label></th>
+                </tr>
+                <tr align="center">
+                    <td><input type="text" name="StepCount" value="<c:out value='${StepCount}' />">歩</td>
+                    <td>=</td>
+                    <td><c:out value="${CaloriesBurned}" /> kcal</td>
+                </tr>
+             </table>
             <input type="hidden" id="caloriesBurnedDay" name="day" value="">
-            <br /><br />
+            <input type="hidden" name="CaloriesBurned" value="<c:out value='${CaloriesBurned}' />">
+            <br />
         <button onclick="editCaloriesBurned()">編集</button>
         </form>
 

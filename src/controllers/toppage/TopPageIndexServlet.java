@@ -41,6 +41,8 @@ public class TopPageIndexServlet extends HttpServlet {
             request.getSession().removeAttribute("flush");
         }
 
+
+
         // セッションスコープに保存されたログインユーザ情報を取得
         User u = (User) request.getSession().getAttribute("login_user");
         // ログインユーザーのIDを取得
@@ -52,7 +54,7 @@ public class TopPageIndexServlet extends HttpServlet {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate nowDate = LocalDate.now();
         String LoginDate = nowDate.format(formatter);
-        request.setAttribute("loginDay", nowDate);
+        request.setAttribute("loginDay", LoginDate);
 
         day = LoginDate; //ログインした日付
         EntityManager em = DBUtil.createEntityManager();
