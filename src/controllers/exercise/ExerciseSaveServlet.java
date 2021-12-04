@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import models.CalorieIntake;
+import models.CalorieConsumption;
 import models.User;
 import utils.DBUtil;
 
@@ -40,35 +40,41 @@ public class ExerciseSaveServlet extends HttpServlet {
         // ログインユーザーのIDを取得
         int userId = u.getId();
         String day = request.getParameter("day");
-        String totalcalorieStr = request.getParameter("totalCalorie");
-        int totalcalorie = 0;
+        String caloriesburned = request.getParameter("caloriesburned");
+        String Stepcount = request.getParameter("StepCount");
+        double CaloriesBurned = 0;
+        double StepCount = 0;
         String _token = request.getParameter("_token");
         if (_token != null && _token.equals(request.getSession().getId())) {
             try {
-                totalcalorie = Integer.parseInt(totalcalorieStr);
+                CaloriesBurned = Integer.parseInt(caloriesburned);
+                StepCount = Integer.parseInt(Stepcount);
             }catch(NumberFormatException e) {
 
             }
             em.getTransaction().begin();
-            CalorieIntake calorieIntake = new CalorieIntake();
+            CalorieConsumption calorieconsumption = new CalorieConsumption();
+
             try {
-                calorieIntake = em.createNamedQuery("getUseridAndDayByCalorieIntake", CalorieIntake.class)
+                calorieconsumption = em.createNamedQuery("getUseridAndDayByCalorieConsumption", CalorieConsumption.class)
                         .setParameter("userid", userId)
                         .setParameter("day", day)
                         .getSingleResult();
             }catch(NoResultException e) {
 
             }
-            calorieIntake.setUserid(userId);
-            calorieIntake.setDay(day);
-            calorieIntake.setTotalcalorieintake(totalcalorie);
-            em.persist(calorieIntake);
+            calorieconsumption.setUserid(userId);
+            calorieconsumption.setDay(day);
+            calorieconsumption.setCaloriesburned(CaloriesBurned);
+            calorieconsumption.setCaloriesburned(StepCount);
+            em.persist(calorieconsumption);
+
 
             em.getTransaction().commit();
-            request.getSession().setAttribute("flush", "総カロリーを保存しました。");
+            request.getSession().setAttribute("flush", "消費カロリーを保存しました。");
             response.sendRedirect(request.getContextPath() + "/meal/index?day="+day);
         } else {
-            request.getSession().setAttribute("flush", "総カロリーの保存に失敗しました。");
+            request.getSession().setAttribute("flush", "消費カロリーの保存に失敗しました。");
             response.sendRedirect(request.getContextPath() + "/meal/index?day="+day);
         }
     }

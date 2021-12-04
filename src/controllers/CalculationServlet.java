@@ -101,10 +101,6 @@ public class CalculationServlet extends HttpServlet {
         rd.forward(request, response);
 
 
-
-
-
-
     }
 
 

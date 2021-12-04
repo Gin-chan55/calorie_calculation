@@ -47,8 +47,9 @@ public class CalorieConsumption {
     @Column(name = "day", length = 255, nullable = false)
     private String day;
 
+    // ★ここInteger からDoubleに変更
     @Column(name = "caloriesburned", nullable = false)
-    private Integer caloriesburned;
+    private Double caloriesburned;
 
     @Column(name = "stepcount", nullable = false)
     private Integer stepcount;
@@ -77,11 +78,11 @@ public class CalorieConsumption {
         this.day = day;
     }
 
-    public Integer getCaloriesburned() {
+    public Double getCaloriesburned() {
         return caloriesburned;
     }
 
-    public void setCaloriesburned(Integer caloriesburned) {
+    public void setCaloriesburned(Double caloriesburned) {
         this.caloriesburned = caloriesburned;
     }
 

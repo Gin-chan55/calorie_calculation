@@ -35,7 +35,7 @@
             <table id="CaloriesBurned_list">
                 <tr>
                     <th><label for="text">歩数</label></th>
-                    <th>＝</th>
+                    <th></th>
                     <th><label for="text">消費カロリー</label></th>
                 </tr>
                 <tr align="center">

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.CalorieConsumption;
 import models.CalorieIntake;
 import models.User;
 import utils.DBUtil;
@@ -41,14 +42,11 @@ public class TopPageIndexServlet extends HttpServlet {
             request.getSession().removeAttribute("flush");
         }
 
-
-
         // セッションスコープに保存されたログインユーザ情報を取得
         User u = (User) request.getSession().getAttribute("login_user");
-        // ログインユーザーのIDを取得
+        // リクエストパラメータを取得
         int userId = u.getId();
         String day = request.getParameter("day");
-
 
         // 現在日時情報で初期化されたインスタンスの取得
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -71,6 +69,19 @@ public class TopPageIndexServlet extends HttpServlet {
 
         }
         request.setAttribute("calorieintake", totalCalorie);
+
+        Double caloriesburned = (double) 0;
+        try {
+            CalorieConsumption calorieconsumption = (CalorieConsumption) em.createNamedQuery("getUseridAndDayByCalorieConsumption", CalorieConsumption.class)
+                    .setParameter("userid", userId)
+                    .setParameter("day", day)
+                    .getSingleResult();
+            caloriesburned = calorieconsumption.getCaloriesburned();
+        }catch(NoResultException e) {
+
+        }
+        request.setAttribute("CaloriesBurned", caloriesburned);
+
 
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/toppage/index.jsp");
